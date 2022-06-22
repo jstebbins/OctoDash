@@ -106,6 +106,7 @@ interface OctoDash {
   screenWakeupCommand: string;
   showExtruderControl: boolean;
   showNotificationCenterIcon: boolean;
+  window: Window;
 }
 
 export interface CustomAction {
@@ -125,4 +126,15 @@ interface InvertAxisControl {
   x: boolean;
   y: boolean;
   z: boolean;
+}
+
+interface Window {
+  enabled: boolean;
+  width: number;
+  height: number;
+  x: number;
+  y: number;
+  frame: boolean;
+  fullscreen: boolean;
+  backgroundColor: string;
 }

@@ -6,21 +6,36 @@ const configSchema = require('./config.schema');
 
 let store;
 const ajv = new Ajv({ allErrors: true });
-const validate = ajv.compile(configSchema);
+//const validate = ajv.compile(configSchema);
+//let validate = ajv.compile(configSchema);
+let validate = null;
 
-function readConfig(window) {
+function fetchConfig(window) {
+  let config;
   try {
     if (!store) {
       store = new Store();
     }
-    const config = store.get('config');
-    window.webContents.send('configRead', config);
+    config = store.get('config');
   } catch {
+    console.error(e.message);
+  }
+  return config;
+}
+
+function readConfig(window) {
+  const config = fetchConfig();
+  if (config) {
+    window.webContents.send('configRead', config);
+  } else {
     window.webContents.send('configError', "Can't read config file.");
   }
 }
 
 function saveConfig(window, config) {
+  //const ajv = new Ajv({ allErrors: true });
+  if (!validate)
+    validate = ajv.compile(configSchema);
   if (validate(config)) {
     try {
       store.set('config', config);
@@ -34,6 +49,9 @@ function saveConfig(window, config) {
 }
 
 function checkConfig(window, config) {
+  //const ajv = new Ajv({ allErrors: true });
+  if (!validate)
+    validate = ajv.compile(configSchema);
   if (!validate(config)) {
     window.webContents.send('configFail', getConfigErrors());
   } else {
@@ -53,4 +71,4 @@ function getConfigErrors() {
   return errors;
 }
 
-module.exports = { readConfig, saveConfig, checkConfig };
+module.exports = { fetchConfig, readConfig, saveConfig, checkConfig };

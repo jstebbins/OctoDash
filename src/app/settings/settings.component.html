@@ -461,6 +461,133 @@
               </tr>
             </table>
           </div>
+
+          <span class="settings__heading-2" i18n="@@octodash-window">Screen/Window Layout</span>
+          <form class="settings__form">
+            <table>
+              <tr>
+                <td colspan="2" style="text-align: left">
+                  <div
+                    class="settings__checkbox-container"
+                    (click)="config.octodash.window.enabled = !config.octodash.window.enabled">
+                    <span class="settings__checkbox">
+                      <span class="settings__checkbox-checked" *ngIf="config.octodash.window.enabled"></span>
+                    </span>
+                    <span class="settings__checkbox-descriptor" i18n="@@window-enabled">Use Custom Layout</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align: left">
+                  <div
+                    class="settings__checkbox-container"
+                    [ngClass]="{'settings__checkbox-container-disabled': !config.octodash.window.enabled}"
+                    (click)="config.octodash.window.fullscreen = !config.octodash.window.fullscreen">
+                    <span class="settings__checkbox">
+                      <span class="settings__checkbox-checked"
+                        [ngClass]="{'settings__checkbox-checked-disabled': !config.octodash.window.enabled}"
+                        *ngIf="config.octodash.window.fullscreen"></span>
+                    </span>
+                    <span class="settings__checkbox-descriptor" i18n="@@window-fullscreen">Fullscreen</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align: left">
+                  <div
+                    class="settings__checkbox-container"
+                    [ngClass]="{'settings__checkbox-container-disabled': !config.octodash.window.enabled}"
+                    (click)="config.octodash.window.frame = !config.octodash.window.frame">
+                    <span class="settings__checkbox">
+                      <span class="settings__checkbox-checked"
+                        [ngClass]="{'settings__checkbox-checked-disabled': !config.octodash.window.enabled}"
+                        *ngIf="config.octodash.window.frame">
+                      </span>
+                    </span>
+                    <span class="settings__checkbox-descriptor" i18n="@@window-frame">Add Window Frame</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="width: 25.6vw; display: block">
+                  <label for="window-x-pos" class="settings__input-label" i18n="@@window-x-pos">
+                    X-Position
+                    <span>(pixels)</span>
+                  </label>
+                  <input
+                    type="number"
+                    id="window-x-pos"
+                    class="settings__input"
+                    name="window-x-pos"
+                    style="width: 19vw"
+                    [(ngModel)]="config.octodash.window.x"
+                    [disabled]="!config.octodash.window.enabled"/>
+                </td>
+                <td style="width: 25.6vw">
+                  <label for="window-y-pos" class="settings__input-label" i18n="@@window-y-pos">
+                    Y-Position
+                    <span>(pixels)</span>
+                  </label>
+                  <input
+                    type="number"
+                    id="window-y-pos"
+                    class="settings__input"
+                    name="window-y-pos"
+                    style="width: 19vw"
+                    [(ngModel)]="config.octodash.window.y"
+                    [disabled]="!config.octodash.window.enabled"/>
+                </td>
+              </tr>
+              <tr>
+                <td style="width: 25.6vw; display: block">
+                  <label for="window-width" class="settings__input-label" i18n="@@window-width">
+                    Width
+                    <span>(pixels)</span>
+                  </label>
+                  <input
+                    type="number"
+                    id="window-width"
+                    class="settings__input"
+                    name="window-width"
+                    style="width: 19vw"
+                    [(ngModel)]="config.octodash.window.width"
+                    [disabled]="!config.octodash.window.enabled"/>
+                </td>
+                <td style="width: 25.6vw">
+                  <label for="window-height" class="settings__input-label" i18n="@@window-height">
+                    Height
+                    <span>(pixels)</span>
+                  </label>
+                  <input
+                    type="number"
+                    id="window-height"
+                    class="settings__input"
+                    name="window-height"
+                    style="width: 19vw"
+                    [(ngModel)]="config.octodash.window.height"
+                    [disabled]="!config.octodash.window.enabled"/>
+                </td>
+              </tr>
+              <tr>
+                <td style="width: 25.6vw">
+                  <label for="window-height" class="settings__input-label" i18n="@@window-background-color">
+                    Background Color
+                  </label>
+                  <input
+                    type="string"
+                    id="window-background-color"
+                    class="settings__input"
+                    name="window-background-color"
+                    style="width: 19vw"
+                    [(ngModel)]="config.octodash.window.backgroundColor"
+                    [disabled]="!config.octodash.window.enabled"/>
+                </td>
+              </tr>
+            </table>
+            <div class="window-customization-info" i18n="@@window-customization-info">
+              You must restart OctoPrint after saving settings for layout customizations to take effect.
+            </div>
+          </form>
           <br />
         </div>
       </div>

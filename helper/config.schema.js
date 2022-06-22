@@ -295,6 +295,7 @@ const configSchema = {
         'screenWakeupCommand',
         'showExtruderControl',
         'showNotificationCenterIcon',
+        'window',
       ],
       properties: {
         customActions: {
@@ -408,6 +409,45 @@ const configSchema = {
         showNotificationCenterIcon: {
           $id: '#/properties/octodash/properties/showNotificationCenterIcon',
           type: 'boolean',
+        },
+        window: {
+          $id: '#/properties/octodash/properties/window',
+          type: 'object',
+          required: ['enabled', 'width', 'height', 'x', 'y', 'frame', 'fullscreen', 'backgroundColor'],
+          properties: {
+            enabled: {
+              $id: '#/properties/octodash/properties/window/enabled',
+              type: 'boolean',
+            },
+            width: {
+              $id: '#/properties/octodash/properties/window/width',
+              type: 'number',
+            },
+            height: {
+              $id: '#/properties/octodash/properties/window/height',
+              type: 'number',
+            },
+            x: {
+              $id: '#/properties/octodash/properties/window/x',
+              type: 'number',
+            },
+            y: {
+              $id: '#/properties/octodash/properties/window/y',
+              type: 'number',
+            },
+            frame: {
+              $id: '#/properties/octodash/properties/window/frame',
+              type: 'boolean',
+            },
+            fullscreen: {
+              $id: '#/properties/octodash/properties/window/fullscreen',
+              type: 'boolean',
+            },
+            backgroundColor: {
+              $id: '#/properties/octodash/properties/window/backgroundColor',
+              type: 'string',
+            },
+          },
         },
       },
     },
