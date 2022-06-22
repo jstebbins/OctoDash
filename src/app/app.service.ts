@@ -57,6 +57,17 @@ export class AppService {
       "/plugins must have required property 'ophom'": config => (config.plugins.ophom = { enabled: false }),
       "/octodash must have required property 'showNotificationCenterIcon'": config =>
         (config.octodash.showNotificationCenterIcon = true),
+      "/octodash must have required property 'window'": config =>
+        (config.octodash.window = {
+          enabled: false,
+          x: 0,
+          y: 0,
+          width: 800,
+          height: 480,
+          frame: false,
+          fullscreen: true,
+          backgroundColor: '#353b48',
+        }),
     };
   }
 

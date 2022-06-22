@@ -8,12 +8,22 @@ let store;
 const ajv = new Ajv({ allErrors: true });
 const validate = ajv.compile(configSchema);
 
-function readConfig(window) {
+function fetchConfig(window) {
+  let config;
   try {
     if (!store) {
       store = new Store();
     }
-    const config = store.get('config');
+    config = store.get('config');
+  } catch {
+    throw e;
+  }
+  return config;
+}
+
+function readConfig(window) {
+  try {
+    const config = fetchConfig();
     window.webContents.send('configRead', config);
   } catch {
     window.webContents.send('configError', "Can't read config file.");
@@ -34,11 +44,15 @@ function saveConfig(window, config) {
 }
 
 function checkConfig(window, config) {
-  if (!validate(config)) {
-    window.webContents.send('configFail', getConfigErrors());
-  } else {
-    window.webContents.send('configPass');
+  result = validate(config);
+  if (window) {
+    if (!result) {
+      window.webContents.send('configFail', getConfigErrors());
+    } else {
+      window.webContents.send('configPass');
+    }
   }
+  return result;
 }
 
 function getConfigErrors() {
@@ -53,4 +67,4 @@ function getConfigErrors() {
   return errors;
 }
 
-module.exports = { readConfig, saveConfig, checkConfig };
+module.exports = { fetchConfig, readConfig, saveConfig, checkConfig };

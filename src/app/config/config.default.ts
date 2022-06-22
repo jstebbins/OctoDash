@@ -135,5 +135,15 @@ export const defaultConfig: Config = {
     screenWakeupCommand: 'xset s off && xset -dpms && xset s noblank',
     showExtruderControl: true,
     showNotificationCenterIcon: true,
+    window: {
+      enabled: false,
+      width: 800,
+      height: 400,
+      x: 0,
+      y: 0,
+      frame: false,
+      fullscreen: true,
+      backgroundColor: '#353b48',
+    },
   },
 };
