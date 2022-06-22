@@ -272,6 +272,14 @@
         <source>Can't retrieve printer profile!</source>
         <target>Impossible de récupérer le profil de l'imprimante !</target>
       </trans-unit>
+      <trans-unit id="are-you-sure" datatype="html">
+        <source>are you sure?</source>
+        <target>souhaitez-vous continuer ?</target>
+      </trans-unit>
+      <trans-unit id="confirm-exec" datatype="html">
+        <source>do you want to execute the following command?</source>
+        <target>voulez-vous exécuter la commande suivante ?</target>
+      </trans-unit>
       <trans-unit id="website-loading" datatype="html">
         <source>loading website ...</source>
         <target>chargement du site Web ...</target>
@@ -280,13 +288,23 @@
         <source> That shouldn't happen ... </source>
         <target> Cela ne devrait pas arriver ... </target>
       </trans-unit>
-      <trans-unit id="are-you-sure" datatype="html">
-        <source>are you sure?</source>
-        <target>souhaitez-vous continuer ?</target>
+      <trans-unit id="external-link-print-time" datatype="html">
+        <source>Print Time:</source>
       </trans-unit>
-      <trans-unit id="confirm-exec" datatype="html">
-        <source>do you want to execute the following command?</source>
-        <target>voulez-vous exécuter la commande suivante ?</target>
+      <trans-unit id="external-link-print-time-left" datatype="html">
+        <source>Print Time Left:</source>
+      </trans-unit>
+      <trans-unit id="external-link-layer" datatype="html">
+        <source>Layer:</source>
+      </trans-unit>
+      <trans-unit id="external-link-tool" datatype="html">
+        <source>Tool:</source>
+      </trans-unit>
+      <trans-unit id="external-link-bed" datatype="html">
+        <source>Bed:</source>
+      </trans-unit>
+      <trans-unit id="external-link-fan" datatype="html">
+        <source>Fan:</source>
       </trans-unit>
       <trans-unit id="load-new-filament" datatype="html">
         <source>load new filament</source>

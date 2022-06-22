@@ -460,6 +460,10 @@
           <context context-type="linenumber">6</context>
         </context-group>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/external-link/external-link.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src/app/print-control/print-control.component.html</context>
           <context context-type="linenumber">11</context>
         </context-group>
@@ -471,36 +475,78 @@
           <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="website-loading" datatype="html">
-        <source>loading website ...</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/control/custom-actions/custom-actions.component.html</context>
-          <context context-type="linenumber">2</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/control/custom-actions/custom-actions.component.html</context>
-          <context context-type="linenumber">10</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="should-not-happen" datatype="html">
-        <source> That shouldn&apos;t happen ... </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/control/custom-actions/custom-actions.component.html</context>
-          <context context-type="linenumber">3,5</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="are-you-sure" datatype="html">
         <source>are you sure?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/control/custom-actions/custom-actions.component.html</context>
-          <context context-type="linenumber">34</context>
+          <context context-type="linenumber">20</context>
         </context-group>
       </trans-unit>
       <trans-unit id="confirm-exec" datatype="html">
         <source>do you want to execute the following command?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/control/custom-actions/custom-actions.component.html</context>
-          <context context-type="linenumber">35</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="website-loading" datatype="html">
+        <source>loading website ...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/external-link/external-link.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/external-link/external-link.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="should-not-happen" datatype="html">
+        <source> That shouldn&apos;t happen ... </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/external-link/external-link.component.html</context>
+          <context context-type="linenumber">21,23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="external-link-print-time" datatype="html">
+        <source>Print Time:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/external-link/external-link.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="external-link-print-time-left" datatype="html">
+        <source>Print Time Left:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/external-link/external-link.component.html</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="external-link-layer" datatype="html">
+        <source>Layer:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/external-link/external-link.component.html</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="external-link-tool" datatype="html">
+        <source>Tool:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/external-link/external-link.component.html</context>
+          <context context-type="linenumber">66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="external-link-bed" datatype="html">
+        <source>Bed:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/external-link/external-link.component.html</context>
+          <context context-type="linenumber">74</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="external-link-fan" datatype="html">
+        <source>Fan:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/external-link/external-link.component.html</context>
+          <context context-type="linenumber">82</context>
         </context-group>
       </trans-unit>
       <trans-unit id="load-new-filament" datatype="html">

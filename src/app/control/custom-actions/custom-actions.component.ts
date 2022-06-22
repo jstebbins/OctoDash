@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
+import { CustomAction } from '../../config/config.model';
 import { ConfigService } from '../../config/config.service';
 import { PSUState } from '../../model';
 import { EnclosureService } from '../../services/enclosure/enclosure.service';
@@ -17,8 +17,7 @@ export class CustomActionsComponent {
   @Input() redirectActive = true;
 
   public customActions = [];
-  public iFrameURL: SafeResourceUrl = 'about:blank';
-  public actionToConfirm: ActionToConfirm;
+  public actionToConfirm: CustomAction;
 
   constructor(
     private printerService: PrinterService,
@@ -30,15 +29,18 @@ export class CustomActionsComponent {
     this.customActions = this.configService.getCustomActions();
   }
 
-  public doAction(command: string, exit: boolean, confirm: boolean): void {
-    if (confirm) {
+  public doAction(action: CustomAction): void {
+    if (action.confirm) {
       this.actionToConfirm = {
-        command,
-        exit,
+        icon: action.icon,
+        command: action.command,
+        color: action.color,
+        confirm: false,
+        exit: action.exit,
       };
     } else {
-      command.split('; ').forEach(this.executeGCode.bind(this));
-      if (exit && this.redirectActive) {
+      action.command.split('; ').forEach(this.executeGCode.bind(this, action.icon));
+      if (action.exit && this.redirectActive) {
         this.router.navigate(['/main-screen']);
       }
       this.hideConfirm();
@@ -49,7 +51,7 @@ export class CustomActionsComponent {
     this.actionToConfirm = null;
   }
 
-  private executeGCode(command: string): void {
+  private executeGCode(icon: string, command: string): void {
     switch (command) {
       case '[!DISCONNECT]':
         this.disconnectPrinter();
@@ -80,7 +82,9 @@ export class CustomActionsComponent {
         break;
       default: {
         if (command.includes('[!WEB]')) {
-          this.openIFrame(command.replace('[!WEB]', ''));
+          this.openIFrame(command.replace('[!WEB]', ''), icon);
+        } else if (command.includes('[!IMG]')) {
+          this.openIMG(command.replace('[!IMG]', ''), icon);
         } else if (command.includes('[!NEOPIXEL]')) {
           const values = command.replace('[!NEOPIXEL]', '').split(',');
           this.setLEDColor(values[0], values[1], values[2], values[3]);
@@ -129,23 +133,14 @@ export class CustomActionsComponent {
     setTimeout(this.stopOctoDash, 500);
   }
 
-  // [!WEB]
-  private openIFrame(url: string): void {
-    this.iFrameURL = url;
-    const iFrameDOM = document.getElementById('iFrame');
-    iFrameDOM.style.display = 'block';
-    setTimeout((): void => {
-      iFrameDOM.style.opacity = '1';
-    }, 50);
+  // [!IMG]
+  private openIMG(imgUrl: string, icon: string): void {
+    this.router.navigate(['/external-link'], { queryParams: { linktype: 'img', url: imgUrl, icon: icon } });
   }
 
-  public hideIFrame(): void {
-    const iFrameDOM = document.getElementById('iFrame');
-    iFrameDOM.style.opacity = '0';
-    setTimeout((): void => {
-      iFrameDOM.style.display = 'none';
-      this.iFrameURL = 'about:blank';
-    }, 500);
+  // [!WEB]
+  private openIFrame(iframeUrl: string, icon: string): void {
+    this.router.navigate(['/external-link'], { queryParams: { linktype: 'iframe', url: iframeUrl, icon: icon } });
   }
 
   private setLEDColor(identifier: string, red: string, green: string, blue: string): void {
@@ -160,9 +155,4 @@ export class CustomActionsComponent {
   private setOutputPWM(identifier: string, dutyCycle: string): void {
     this.enclosureService.setOutputPWM(Number(identifier), Number(dutyCycle));
   }
-}
-
-interface ActionToConfirm {
-  command: string;
-  exit: boolean;
 }

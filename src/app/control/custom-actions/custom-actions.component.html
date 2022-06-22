@@ -1,17 +1,9 @@
-<div class="i-frame" id="iFrame">
-  <span i18n="@@website-loading">loading website ...</span>
-  <iframe class="i-frame__content" [src]="iFrameURL | url" onerror="doActionConfirm()" allow="fullscreen; camera;" i18n="@@should-not-happen">
-    That shouldn't happen ...
-  </iframe>
-  <img src="assets/error.svg" class="i-frame__close" (click)="hideIFrame()" />
-</div>
-
 <div class="custom-actions">
   <div
     class="custom-actions__action"
     *ngFor="let customAction of customActions"
     [style.border-color]="customAction.color"
-    (click)="doAction(customAction.command, customAction.exit, customAction.confirm)"
+    (click)="doAction(customAction)"
     matRipple
     [matRippleUnbounded]="false"
   >
@@ -31,7 +23,7 @@
     <img
       class="confirm__icon"
       src="assets/confirm-small.svg"
-      (click)="doAction(actionToConfirm.command, actionToConfirm.exit, false)"
+      (click)="doAction(actionToConfirm)"
     />
     <img class="confirm__icon" src="assets/cancel-small.svg" (click)="hideConfirm()" />
   </div>

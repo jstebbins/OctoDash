@@ -1,0 +1,88 @@
+<table class="top-bar">
+  <tr>
+    <td class="top-bar__back">
+      <span class="top-bar__back__ripple" matRipple [matRippleUnbounded]="true" [matRippleCentered]="true">
+        <img class="top-bar__back__icon" src="assets/back.svg" (click)="back()"/>
+        <span class="top-bar__back__text" i18n="@@control-back">back</span>
+      </span>
+    </td>
+    <td class="top-bar__center" *ngIf="actionIcon">
+      <fa-icon
+        [icon]="['fas', actionIcon]"
+      ></fa-icon>
+    </td>
+    <td class="top-bar__next"></td>
+  </tr>
+</table>
+
+<div class="external-link">
+  <div *ngIf="showIframe" class="external-link__iframe">
+    <span class="external-link__iframe__loading" i18n="@@website-loading">loading website ...</span>
+    <iframe class="external-link__iframe__content" [src]="customURL | url" allow="fullscreen; camera;" i18n="@@should-not-happen">
+      That shouldn't happen ...
+    </iframe>
+  </div>
+
+  <div *ngIf="showImage" class="external-link__image">
+    <span class="external-link__image__loading" i18n="@@website-loading">loading website ...</span>
+    <img class="external-link__image__content" [src]="customURL | url" alt="Custom Action Image" i18n="@@should-not-happen"/>
+  </div>
+</div>
+
+<table class="job-status">
+  <ng-container *ngIf="isFileLoaded() || isPrinting()">
+    <tr>
+      <td class="job-status__file">
+          <span class="job-status__file__text">{{ jobStatus.file }}</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="job-status__label">
+          <span class="job-status__label__text" i18n="@@external-link-print-time">Print Time:</span>
+      </td>
+      <td class="job-status__value">
+          <span class="job-status__value__text">{{ jobStatus.timePrinted.value }}</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="job-status__label">
+          <span class="job-status__label__text" i18n="@@external-link-print-time-left">Print Time Left:</span>
+      </td>
+      <td class="job-status__value">
+          <span class="job-status__value__text">{{ jobStatus.timeLeft.value }}</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="job-status__label">
+          <span class="job-status__label__text" i18n="@@external-link-layer">Layer:</span>
+      </td>
+      <td class="job-status__value">
+          <span class="job-status__value__text">{{ getLayerStatusString() }}</span>
+      </td>
+    </tr>
+  </ng-container>
+  <tr>
+    <td class="job-status__label">
+        <span class="job-status__label__text" i18n="@@external-link-tool">Tool:</span>
+    </td>
+    <td class="job-status__value">
+        <span class="job-status__value__text">{{ printerStatus.tool0.current }}{{ printerStatus.tool0.unit }}/{{ printerStatus.tool0.set }}{{ printerStatus.tool0.unit }}</span>
+    </td>
+  </tr>
+  <tr>
+    <td class="job-status__label">
+        <span class="job-status__label__text" i18n="@@external-link-bed">Bed:</span>
+    </td>
+    <td class="job-status__value">
+        <span class="job-status__value__text">{{ printerStatus.bed.current }}{{ printerStatus.bed.unit }}/{{ printerStatus.bed.set }}{{ printerStatus.bed.unit }}</span>
+    </td>
+  </tr>
+  <tr>
+    <td class="job-status__label">
+        <span class="job-status__label__text" i18n="@@external-link-fan">Fan:</span>
+    </td>
+    <td class="job-status__value">
+        <span class="job-status__value__text">{{ printerStatus.fanSpeed }}%</span>
+    </td>
+  </tr>
+</table>

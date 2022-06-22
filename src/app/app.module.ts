@@ -27,6 +27,7 @@ import { ControlComponent } from './control/control.component';
 import { CustomActionsComponent } from './control/custom-actions/custom-actions.component';
 import { ConversionService } from './conversion.service';
 import { EventService } from './event.service';
+import { ExternalLinkComponent } from './external-link/external-link.component';
 import { ChangeFilamentComponent } from './filament/change-filament/change-filament.component';
 import { ChooseFilamentComponent } from './filament/choose-filament/choose-filament.component';
 import { FilamentComponent } from './filament/filament.component';
@@ -103,6 +104,7 @@ export function playerFactory(): LottiePlayer {
     ChangeFilamentComponent,
     PurgeFilamentComponent,
     CustomActionsComponent,
+    ExternalLinkComponent,
     ToggleSwitchComponent,
     NotificationCenterComponent,
   ],
