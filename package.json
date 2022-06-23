@@ -13,7 +13,7 @@
     "chrome > 87"
   ],
   "build": {
-    "appId": "octodash",
+    "appId": "org.octodash.octodash",
     "productName": "OctoDash",
     "directories": {
       "output": "package"
@@ -38,6 +38,21 @@
       "!**/{appveyor.yml,.travis.yml,circle.yml}",
       "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}"
     ],
+    "flatpak": {
+      "runtime": "org.freedesktop.Platform",
+      "runtimeVersion": "21.08",
+      "base": "org.electronjs.Electron2.BaseApp",
+      "baseVersion": "21.08"
+    },
+    "dmg": {
+      "background": "build/background.png",
+      "icon": "build/icon.icns",
+      "title": "${productName} ${version}"
+    },
+    "win": {
+      "icon": "build/icon.ico",
+      "target": "NSIS"
+    },
     "linux": {
       "target": [
         {
@@ -45,6 +60,24 @@
           "arch": [
             "armv7l",
             "arm64",
+            "x64"
+          ]
+        },
+        {
+          "target": "snap",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "flatpak",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "appimage",
+          "arch": [
             "x64"
           ]
         }
@@ -56,7 +89,11 @@
     "build:prod": "ng build --configuration production",
     "build": "ng build",
     "electron:dev": "electron . --serve --big",
-    "electron:pack": "electron-builder build -l",
+    "electron:pack:linux": "electron-builder build -l",
+    "electron:pack:win": "electron-builder build -w",
+    "electron:pack:mac": "electron-builder build -m",
+    "electron:pack:deb": "electron-builder build -l deb",
+    "electron:pack": "npm run electron:pack:deb",
     "electron:serve:big": "wait-on http-get://localhost:4200/ && electron . --serve --big",
     "electron:serve": "wait-on http-get://localhost:4200/ && electron . --serve",
     "electron": "electron .",
@@ -66,8 +103,11 @@
     "locale:update:all": "node -e 'require(`./helper/locale.js`).updateLocales()'",
     "locale:update": "npm run locale:extract && npm run locale:update:all",
     "ng": "ng",
-    "pack:mac": "npm run ng:build && electron-builder build -m",
-    "pack": "npm run build:prod && npm run electron:pack",
+    "pack:linux": "npm run build:prod && npm run electron:pack:linux",
+    "pack:win": "npm run build:prod && npm run electron:pack:win",
+    "pack:mac": "npm run build:prod && npm run electron:pack:mac",
+    "pack:deb": "npm run build:prod && npm run electron:pack:deb",
+    "pack": "npm run pack:deb",
     "serve": "ng serve",
     "start:big": "npm-run-all -p serve electron:serve:big",
     "start": "npm-run-all -p serve electron:serve electron:serve:big"
