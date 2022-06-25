@@ -38,6 +38,11 @@ module.exports = {
       dev: serve,
       url: null,
       windowState: null,
+      aspect: {
+        keepAspect: !full && !serve,
+        width: 16,
+        height: 9,
+      },
       window: {
         frame: !full,
         fullscreen: full,
@@ -95,6 +100,7 @@ module.exports = {
       properties.window.y = 0;
       properties.window.fullscreen = true;
       properties.window.frame = false;
+      properties.aspect.keepAspect = false;
     }
 
     properties.url = serve ? 'http://localhost:4200' :

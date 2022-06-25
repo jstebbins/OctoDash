@@ -33,6 +33,9 @@ function createWindow() {
     // It's mostly useless and some of the options are harmful.
     window.removeMenu();
   }
+  if (properties.aspect.keepAspect) {
+    window.setAspectRatio(properties.aspect.width / properties.aspect.height);
+  }
 
   window.loadURL(properties.url);
   activateListeners(ipcMain, window, app, properties.url);
