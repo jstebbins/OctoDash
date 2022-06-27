@@ -20,12 +20,24 @@ export interface OctoprintSocketCurrent {
 export interface OctoprintSocketEvent {
   event: {
     type: string;
-    payload: {
-      error: string;
-      reason: string;
-    };
+    payload: OctoprintEventSimplePayload | OctoprintEventPositionUpdatePayload;
   };
 }
+
+export interface OctoprintEventSimplePayload {
+  error: string;
+  reason: string;
+}
+
+export interface OctoprintEventPositionUpdatePayload {
+  f: number; // feedrate
+  e: number; // extruder pos
+  t: number; // tool
+  x: number; // x pos
+  y: number; // y pos
+  z: number; // z pos
+}
+
 export interface OctoprintPluginMessage {
   plugin: {
     plugin: string;

@@ -19,6 +19,8 @@ import {
 } from '../../model';
 import {
   DisplayLayerProgressData,
+  OctoprintEventPositionUpdatePayload,
+  OctoprintEventSimplePayload,
   OctoprintFilament,
   OctoprintPluginMessage,
   OctoprintSocketCurrent,
@@ -80,6 +82,24 @@ export class OctoPrintSocketService implements SocketService {
         current: 0,
         set: 0,
         unit: '°C',
+      },
+      position: {
+        x: 0,
+        y: 0,
+        z: 0,
+        tool: 0,
+        e: 0,
+        feedrate: 0,
+      },
+      probeOffset: {
+        x: 0,
+        y: 0,
+        z: 0,
+      },
+      homeOffset: {
+        x: 0,
+        y: 0,
+        z: 0,
       },
       fanSpeed: this.configService.isDisplayLayerProgressEnabled() ? 0 : -1,
     } as PrinterStatus;
@@ -196,6 +216,7 @@ export class OctoPrintSocketService implements SocketService {
         }
       },
       error: error => {
+        console.error(error);
         if (error['type'] === 'close') {
           this.printerStatus.status = PrinterState.reconnecting;
           this.printerStatusSubject.next(this.printerStatus);
@@ -203,6 +224,11 @@ export class OctoPrintSocketService implements SocketService {
         } else {
           console.error(error);
         }
+      },
+      complete: () => {
+        this.printerStatus.status = PrinterState.reconnecting;
+        this.printerStatusSubject.next(this.printerStatus);
+        this.tryConnect(() => null);
       },
     });
   }
@@ -219,6 +245,45 @@ export class OctoPrintSocketService implements SocketService {
   }
 
   //==== Printer Status ====//
+
+  public parseGCodeXYZ(parts): [number, number, number] {
+    let x = 0;
+    let y = 0;
+    let z = 0;
+
+    parts.forEach(part => {
+      switch (part[0]) {
+        case 'X':
+          x = Number(part.slice(1));
+          break;
+        case 'Y':
+          y = Number(part.slice(1));
+          break;
+        case 'Z':
+          z = Number(part.slice(1));
+          break;
+        default:
+          break;
+      }
+    });
+    return [x, y, z];
+  }
+
+  public parseGCodeResponse(printerMessage): void {
+    const parts = printerMessage.split(' ');
+    switch (parts[0]) {
+      case 'M851':
+        [this.printerStatus.probeOffset.x, this.printerStatus.probeOffset.y, this.printerStatus.probeOffset.z] =
+          this.parseGCodeXYZ(parts.slice(1));
+        break;
+      case 'M206':
+        [this.printerStatus.homeOffset.x, this.printerStatus.homeOffset.y, this.printerStatus.homeOffset.z] =
+          this.parseGCodeXYZ(parts.slice(1));
+        break;
+      default:
+        break;
+    }
+  }
 
   public extractPrinterStatus(message: OctoprintSocketCurrent): void {
     if (message.current.temps[0]) {
@@ -250,6 +315,7 @@ export class OctoPrintSocketService implements SocketService {
         },
       } as OctoprintSocketEvent);
     }
+    message?.current?.messages?.forEach(printerMessage => this.parseGCodeResponse(printerMessage));
 
     this.printerStatusSubject.next(this.printerStatus);
   }
@@ -324,6 +390,16 @@ export class OctoPrintSocketService implements SocketService {
 
   //==== Event ====//
 
+  public extractPositionUpdate(payload: OctoprintEventPositionUpdatePayload): void {
+    this.printerStatus.position.x = payload?.x;
+    this.printerStatus.position.y = payload?.y;
+    this.printerStatus.position.z = payload?.z;
+    this.printerStatus.position.tool = payload?.t;
+    this.printerStatus.position.e = payload?.e;
+    this.printerStatus.position.feedrate = payload?.f;
+    this.printerStatusSubject.next(this.printerStatus);
+  }
+
   public extractPrinterEvent(state: OctoprintSocketEvent): void {
     let newState: PrinterEvent;
 
@@ -346,18 +422,23 @@ export class OctoPrintSocketService implements SocketService {
       case 'Disconnected':
         newState = PrinterEvent.CLOSED;
         break;
-      case 'Error':
+      case 'PositionUpdate':
+        this.extractPositionUpdate(state.event.payload as OctoprintEventPositionUpdatePayload);
+        break;
+      case 'Error': {
+        const payload = state.event.payload as OctoprintEventSimplePayload;
         newState = PrinterEvent.CLOSED;
-        if (state.event.payload) {
+        if (payload) {
           this.notificationService.setNotification({
             heading: $localize`:@@printer-error:Printer error`,
-            text: state.event.payload.error,
+            text: payload.error,
             type: NotificationType.ERROR,
             time: new Date(),
             sticky: true,
           } as Notification);
         }
         break;
+      }
       default:
         break;
     }

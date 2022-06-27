@@ -3,6 +3,24 @@ export interface PrinterStatus {
   bed: Temperature;
   tool0: Temperature;
   fanSpeed: number;
+  position: Position;
+  probeOffset: XYZ;
+  homeOffset: XYZ;
+}
+
+interface XYZ {
+  x: number;
+  y: number;
+  z: number;
+}
+
+interface Position {
+  x: number;
+  y: number;
+  z: number;
+  tool: number;
+  e: number;
+  feedrate: number;
 }
 
 interface Temperature {

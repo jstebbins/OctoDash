@@ -51,7 +51,7 @@
             [matRippleCentered]="true"
           ></fa-icon>
         </div>
-        <span class="control__heading">X / Y</span>
+        <span class="control__heading">X / Y = {{ printerStatus.position.x }} / {{ printerStatus.position.y }}</span>
       </div>
 
       <div class="control__jog-arrows--vertical">
@@ -73,7 +73,7 @@
             [matRippleCentered]="true"
           ></fa-icon>
         </div>
-        <span class="control__heading">Z</span>
+        <span class="control__heading">Z = {{ printerStatus.position.z }}</span>
       </div>
 
       <div class="control__jog-arrows--vertical" *ngIf="showExtruder">
@@ -95,7 +95,7 @@
             [matRippleCentered]="true"
           ></fa-icon>
         </div>
-        <span class="control__heading">E</span>
+        <span class="control__heading">E = {{ printerStatus.position.e }}</span>
       </div>
     </div>
 

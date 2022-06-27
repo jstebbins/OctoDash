@@ -1,19 +1,23 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { ConfigService } from '../config/config.service';
-import { NotificationType } from '../model';
+import { NotificationType, PrinterStatus } from '../model';
 import { OctoprintPrinterProfile } from '../model/octoprint';
 import { NotificationService } from '../notification/notification.service';
 import { PrinterService } from '../services/printer/printer.service';
+import { SocketService } from '../services/socket/socket.service';
 
 @Component({
   selector: 'app-control',
   templateUrl: './control.component.html',
   styleUrls: ['./control.component.scss'],
 })
-export class ControlComponent {
+export class ControlComponent implements OnInit, OnDestroy {
+  private subscriptions: Subscription = new Subscription();
   public printerProfile: OctoprintPrinterProfile;
+  public printerStatus: PrinterStatus;
 
   public jogDistance = 10;
   public showExtruder = this.configService.getShowExtruderControl();
@@ -22,6 +26,7 @@ export class ControlComponent {
     private printerService: PrinterService,
     private configService: ConfigService,
     private notificationService: NotificationService,
+    private socketService: SocketService,
   ) {
     this.printerService.getActiveProfile().subscribe({
       next: (printerProfile: OctoprintPrinterProfile) => (this.printerProfile = printerProfile),
@@ -35,6 +40,18 @@ export class ControlComponent {
         });
       },
     });
+  }
+
+  public ngOnInit(): void {
+    this.subscriptions.add(
+      this.socketService.getPrinterStatusSubscribable().subscribe((status: PrinterStatus): void => {
+        this.printerStatus = status;
+      }),
+    );
+  }
+
+  public ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   public setDistance(distance: number): void {
