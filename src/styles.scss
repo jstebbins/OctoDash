@@ -53,6 +53,10 @@ $OctoDash-theme: mat-dark-theme($OctoDash-primary, $OctoDash-accent, $OctoDash-w
   cursor: default;
 }
 
+.octodash-dialog-panel > mat-dialog-container {
+  background: rgba(0, 0, 0, 0);
+}
+
 html,
 body,
 .app-root {

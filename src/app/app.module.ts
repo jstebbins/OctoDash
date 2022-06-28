@@ -2,6 +2,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatRippleModule } from '@angular/material/core';
+import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/dialog';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -63,6 +64,7 @@ import { SystemOctoprintService } from './services/system/system.octoprint.servi
 import { SystemService } from './services/system/system.service';
 import { SettingsComponent } from './settings/settings.component';
 import { ToggleSwitchComponent } from './shared/toggle-switch/toggle-switch.component';
+import { ValueEntryDialog } from './shared/value-entry-dialog/value-entry-dialog.component';
 import { StandbyComponent } from './standby/standby.component';
 import { UpdateComponent } from './update/update.component';
 import { URLSafePipe } from './url.pipe';
@@ -107,6 +109,7 @@ export function playerFactory(): LottiePlayer {
     ExternalLinkComponent,
     ToggleSwitchComponent,
     NotificationCenterComponent,
+    ValueEntryDialog,
   ],
   imports: [
     AppRoutingModule,
@@ -116,6 +119,7 @@ export function playerFactory(): LottiePlayer {
     FormsModule,
     HttpClientModule,
     MatRippleModule,
+    MatDialogModule,
     RoundProgressModule,
     [LottieModule.forRoot({ player: playerFactory }), LottieCacheModule.forRoot()],
   ],
@@ -221,6 +225,19 @@ export function playerFactory(): LottiePlayer {
           httpClient: HttpClient,
         ) => {
           return new EnclosureOctoprintService(configService, notificationService, httpClient);
+        },
+      },
+    ],
+    [
+      {
+        provide: MAT_DIALOG_DEFAULT_OPTIONS,
+        useValue: {
+          panelClass: 'octodash-dialog-panel',
+          hasBackdrop: false,
+          disableClose: true,
+          autoFocus: true,
+          width: '100vw',
+          height: '100vw',
         },
       },
     ],

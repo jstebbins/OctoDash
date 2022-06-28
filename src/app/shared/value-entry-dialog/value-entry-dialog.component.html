@@ -1,0 +1,58 @@
+<div mat-dialog-content>
+  <div class="value-entry" (click)="close()">
+    <table class="top-bar">
+      <tr>
+        <td class="top-bar__back">
+          <img src="assets/back.svg" class="top-bar__back-icon"
+            matRipple [matRippleUnbounded]="false" />
+        </td>
+        <td class="top-bar__center">
+          <img [src]="'assets/' + icon" class="top-bar__center-icon"/>
+        </td>
+        <td class="top-bar__next"></td>
+      </tr>
+    </table>
+
+    <div class="value-entry__controller" (click)="stopPropagation($event)">
+      <div class="value-entry__controller-row">
+        <div class="value-entry__controller-increase"
+          (click)="update(1)" matRipple [matRippleUnbounded]="false"
+        >
+          +1
+        </div>
+        <div class="value-entry__controller-increase"
+          (click)="update(10)" matRipple [matRippleUnbounded]="false"
+        >
+          +10
+        </div>
+      </div>
+
+      <div class="value-entry__controller-value" colspan="2"
+        (click)="update(-1000)" matRipple [matRippleUnbounded]="false"
+      >
+        {{ valueTarget }}<span class="value-entry__controller-value-unit">{{ unit }}</span>
+      </div>
+
+      <div class="value-entry__controller-row">
+        <div class="value-entry__controller-decrease"
+          (click)="update(-1)" matRipple [matRippleUnbounded]="false"
+        >
+          -1
+        </div>
+        <div class="value-entry__controller-decrease"
+          (click)="update(-10)" matRipple [matRippleUnbounded]="false"
+        >
+          -10
+        </div>
+      </div>
+
+      <div class="value-entry__controller-row">
+        <div class="value-entry__controller-set" colspan="2"
+          (click)="set()" matRipple [matRippleUnbounded]="false"
+        >
+          <span class="value-entry__controller-set-span">set</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
