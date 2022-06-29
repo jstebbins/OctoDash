@@ -2,10 +2,15 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PrinterProfile } from '../../model';
+import { OctoprintSettings } from '../../model/octoprint';
 
 @Injectable()
 export abstract class PrinterService {
   abstract getActiveProfile(): Observable<PrinterProfile>;
+
+  abstract getSettings(): Observable<OctoprintSettings>;
+
+  abstract fetchSettings(): OctoprintSettings;
 
   abstract saveToEPROM(): void;
 

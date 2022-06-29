@@ -12,6 +12,7 @@ import {
   GCodeCommand,
   JogCommand,
   OctoprintPrinterProfiles,
+  OctoprintSettings,
   TemperatureHeatbedCommand,
   TemperatureHotendCommand,
 } from '../../model/octoprint';
@@ -20,11 +21,19 @@ import { PrinterService } from './printer.service';
 
 @Injectable()
 export class PrinterOctoprintService implements PrinterService {
+  private settings;
+
   public constructor(
     private configService: ConfigService,
     private notificationService: NotificationService,
     private http: HttpClient,
-  ) {}
+  ) {
+    this.getSettings().subscribe({
+      next: (settings: OctoprintSettings) => {
+        this.settings = settings;
+      },
+    });
+  }
 
   public getActiveProfile(): Observable<PrinterProfile> {
     return this.http
@@ -39,6 +48,17 @@ export class PrinterOctoprintService implements PrinterService {
           }
         }),
       );
+  }
+
+  public getSettings(): Observable<OctoprintSettings> {
+    return this.http.get<OctoprintSettings>(
+      this.configService.getApiURL('settings'),
+      this.configService.getHTTPHeaders(),
+    );
+  }
+
+  fetchSettings(): OctoprintSettings {
+    return this.settings;
   }
 
   saveToEPROM(): void {

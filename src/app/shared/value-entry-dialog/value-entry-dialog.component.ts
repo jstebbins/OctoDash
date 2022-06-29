@@ -1,11 +1,18 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
+export interface ValueEntryPreset {
+  name: string;
+  value: number;
+}
+
 export interface ValueEntryData {
   icon: string;
   unit: string;
-  valueDefault: number;
+  selection: string;
+  acknowledge: string;
   valueMax: number;
+  presets: ValueEntryPreset[];
 }
 
 @Component({
@@ -16,38 +23,51 @@ export interface ValueEntryData {
 export class ValueEntryDialog {
   public icon: string;
   public unit: string;
-  public valueDefault: number;
-  public valueTarget: number;
-  public valueMax: number;
+  public selection: string;
+  public value: number;
+  public acknowledge: string;
+  private valueMax: number;
+  private presets: ValueEntryPreset[];
+  private preset: ValueEntryPreset;
 
   public constructor(private dialogRef: MatDialogRef<ValueEntryDialog>, @Inject(MAT_DIALOG_DATA) data: ValueEntryData) {
-    this.valueDefault = data?.valueDefault;
-    this.valueTarget = this.valueDefault;
     this.valueMax = data?.valueMax;
     this.icon = data?.icon;
     this.unit = data?.unit;
+    this.acknowledge = data?.acknowledge;
+    this.presets = data?.presets;
+    this.selection = data?.selection;
+    this.updatePreset(0);
+  }
+
+  public updatePreset(next: number): void {
+    let index = this.presets.findIndex(p => p.name === this.selection) + next;
+    index = index < 0 ? 0 : index >= this.presets.length ? this.presets.length - 1 : index;
+    this.preset = this.presets[index];
+    this.selection = this.preset.name;
+    this.value = this.preset.value;
   }
 
   public close() {
     this.dialogRef.close();
   }
 
-  public set() {
-    this.dialogRef.close(this.valueTarget);
+  public ack() {
+    this.dialogRef.close([this.selection, this.value]);
   }
 
   public stopPropagation(event: Event): void {
     event.stopPropagation();
   }
 
-  public update(value: number): void {
-    this.valueTarget += value;
-    if (value < -999) {
-      this.valueTarget = this.valueDefault;
-    } else if (this.valueTarget < 0) {
-      this.valueTarget = 0;
-    } else if (this.valueTarget > this.valueMax) {
-      this.valueTarget = this.valueMax;
+  public updateValue(delta: number): void {
+    this.value += delta;
+    if (delta < -999) {
+      this.value = this.preset.value;
+    } else if (this.value < 0) {
+      this.value = 0;
+    } else if (this.value > this.valueMax) {
+      this.value = this.valueMax;
     }
   }
 }

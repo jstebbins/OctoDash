@@ -3,7 +3,7 @@
     <td
       class="printer-status__value printer-status__value-1"
       [ngClass]="{ 'printer-status__no-set-value': printerStatus.tool0.set === 0 }"
-      (click)="showQuickControlHotend()"
+      (click)="showQuickControl('nozzle')"
       matRipple
       [matRippleUnbounded]="false"
     >
@@ -19,7 +19,7 @@
     <td
       class="printer-status__value printer-status__value-2"
       [ngClass]="{ 'printer-status__no-set-value': printerStatus.bed.set === 0 }"
-      (click)="showQuickControlHeatbed()"
+      (click)="showQuickControl('bed')"
       matRipple
       [matRippleUnbounded]="false"
     >
@@ -34,7 +34,7 @@
 
     <td
       class="printer-status__value printer-status__value-3 printer-status__no-set-value"
-      (click)="showQuickControlFan()"
+      (click)="showQuickControl('fan')"
       matRipple
       [matRippleUnbounded]="false"
     >

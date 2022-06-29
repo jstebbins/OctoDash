@@ -14,43 +14,77 @@
     </table>
 
     <div class="value-entry__controller" (click)="stopPropagation($event)">
-      <div class="value-entry__controller-row">
-        <div class="value-entry__controller-increase"
-          (click)="update(1)" matRipple [matRippleUnbounded]="false"
-        >
-          +1
+      <div class="value-entry__controller-presets-row">
+        <div class="value-entry__controller-presets">
+          <div class="value-entry__controller-presets-row">
+            <fa-icon class="value-entry__controller-presets-increase"
+              [icon]="['fas', 'caret-up']"
+              (click)="updatePreset(-1)"
+              matRipple
+              [matRippleUnbounded]="true"
+              [matRippleCentered]="true">
+            </fa-icon>
+          </div>
+          <div class="value-entry__controller-presets-row">
+            <div class="value-entry__controller-presets-value" colspan="2"
+              (click)="updatePreset(0)" matRipple [matRippleUnbounded]="false"
+            >
+              {{ selection }}
+            </div>
+          </div>
+          <div class="value-entry__controller-presets-row">
+            <fa-icon class="value-entry__controller-presets-decrease"
+              [icon]="['fas', 'caret-down']"
+              (click)="updatePreset(1)"
+              matRipple
+              [matRippleUnbounded]="true"
+              [matRippleCentered]="true">
+            </fa-icon>
+          </div>
         </div>
-        <div class="value-entry__controller-increase"
-          (click)="update(10)" matRipple [matRippleUnbounded]="false"
-        >
-          +10
+
+        <div class="value-entry__controller-values">
+          <div class="value-entry__controller-values-row">
+            <div class="value-entry__controller-values-increase"
+              (click)="updateValue(1)" matRipple [matRippleUnbounded]="false"
+            >
+              +1
+            </div>
+            <div class="value-entry__controller-values-increase"
+              (click)="updateValue(10)" matRipple [matRippleUnbounded]="false"
+            >
+              +10
+            </div>
+          </div>
+
+          <div class="value-entry__controller-values-row">
+            <div class="value-entry__controller-presets-value" colspan="2"
+              (click)="updateValue(-1000)" matRipple [matRippleUnbounded]="false"
+            >
+              {{ value }}<span class="value-entry__controller-unit">{{ unit }}</span>
+            </div>
+          </div>
+
+          <div class="value-entry__controller-values-row">
+            <div class="value-entry__controller-values-decrease"
+              (click)="updateValue(-1)" matRipple [matRippleUnbounded]="false"
+            >
+              -1
+            </div>
+            <div class="value-entry__controller-values-decrease"
+              (click)="updateValue(-10)" matRipple [matRippleUnbounded]="false"
+            >
+              -10
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="value-entry__controller-value" colspan="2"
-        (click)="update(-1000)" matRipple [matRippleUnbounded]="false"
-      >
-        {{ valueTarget }}<span class="value-entry__controller-value-unit">{{ unit }}</span>
-      </div>
-
       <div class="value-entry__controller-row">
-        <div class="value-entry__controller-decrease"
-          (click)="update(-1)" matRipple [matRippleUnbounded]="false"
+        <div class="value-entry__controller-acknowledge" colspan="2"
+          (click)="ack()" matRipple [matRippleUnbounded]="false"
         >
-          -1
-        </div>
-        <div class="value-entry__controller-decrease"
-          (click)="update(-10)" matRipple [matRippleUnbounded]="false"
-        >
-          -10
-        </div>
-      </div>
-
-      <div class="value-entry__controller-row">
-        <div class="value-entry__controller-set" colspan="2"
-          (click)="set()" matRipple [matRippleUnbounded]="false"
-        >
-          <span class="value-entry__controller-set-span">set</span>
+          <span class="value-entry__controller-acknowledge-span">{{ acknowledge }}</span>
         </div>
       </div>
     </div>

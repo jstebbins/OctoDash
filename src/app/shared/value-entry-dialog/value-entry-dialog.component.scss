@@ -9,42 +9,85 @@
   opacity: 1;
 
   &__controller {
-    width: 35vw;
+    width: 70vw;
     margin: 0 auto;
     border: solid 0.6vw;
     border-radius: 3vw;
     margin-top: 1.5vh;
 
+    &-unit {
+      text-align: center;
+      font-size: 4vw;
+      font-weight: 400;
+    }
+
     &-row {
       display: flex;
     }
 
-    &-value {
-      padding: 3vh 6vw;
-      font-size: 8vw;
-      font-weight: 500;
-      text-align: center;
+    &-presets {
+      display: flex;
+      flex-direction: column;
+      border-right: solid 0.6vw;
+      width: 35vw;
 
-      &-unit {
+      &-row {
+        display: flex;
+      }
+
+      &-value {
+        padding: 3vh 6vw;
+        font-size: 6vw;
+        font-weight: 500;
         text-align: center;
-        font-size: 4vw;
-        font-weight: 400;
+        flex: 1;
+      }
+
+      &-increase {
+        text-align: center;
+        padding: 3vh 6vw;
+        font-weight: 500;
+        flex: 1;
+      }
+
+      &-decrease {
+        text-align: center;
+        padding: 3vh 6vw;
+        font-weight: 500;
+        flex: 1;
       }
     }
 
-    &-increase {
-      padding: 3vh 6vw;
-      font-weight: 500;
-      flex: 1;
+    &-values {
+      display: flex;
+      flex-direction: column;
+
+      &-row {
+        display: flex;
+      }
+
+      &-value {
+        padding: 3vh 6vw;
+        font-size: 6vw;
+        font-weight: 500;
+        text-align: center;
+        flex: 1;
+      }
+
+      &-increase {
+        padding: 3vh 6vw;
+        font-weight: 500;
+        flex: 1;
+      }
+
+      &-decrease {
+        padding: 3vh 6vw;
+        font-weight: 500;
+        flex: 1;
+      }
     }
 
-    &-decrease {
-      padding: 3vh 6vw;
-      font-weight: 500;
-      flex: 1;
-    }
-
-    &-set {
+    &-acknowledge {
       height: 10vw;
       border-top: solid 0.6vw;
       flex: 1;
