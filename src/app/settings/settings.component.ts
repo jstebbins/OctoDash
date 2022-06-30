@@ -99,6 +99,22 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }, 370);
   }
 
+  public getIconSet(name: string): string {
+    const parts = name.split(':');
+    if (parts.length < 2) {
+      return 'fas';
+    }
+    return parts[0];
+  }
+
+  public getIcon(name: string): string {
+    const parts = name.split(':');
+    if (parts.length < 2) {
+      return parts[0];
+    }
+    return parts[1];
+  }
+
   public updateConfig(): void {
     const config = this.configService.createConfigFromInput(this.config);
 

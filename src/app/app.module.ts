@@ -63,6 +63,7 @@ import { SocketService } from './services/socket/socket.service';
 import { SystemOctoprintService } from './services/system/system.octoprint.service';
 import { SystemService } from './services/system/system.service';
 import { SettingsComponent } from './settings/settings.component';
+import { od } from './shared/fa-octodash';
 import { ToggleSwitchComponent } from './shared/toggle-switch/toggle-switch.component';
 import { ValueEntryDialog } from './shared/value-entry-dialog/value-entry-dialog.component';
 import { StandbyComponent } from './standby/standby.component';
@@ -247,6 +248,6 @@ export function playerFactory(): LottiePlayer {
 })
 export class AppModule {
   public constructor(library: FaIconLibrary) {
-    library.addIconPacks(fas);
+    library.addIconPacks(fas, od);
   }
 }

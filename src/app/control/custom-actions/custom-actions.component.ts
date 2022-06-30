@@ -29,6 +29,22 @@ export class CustomActionsComponent {
     this.customActions = this.configService.getCustomActions();
   }
 
+  public getIconSet(name: string): string {
+    const parts = name.split(':');
+    if (parts.length < 2) {
+      return 'fas';
+    }
+    return parts[0];
+  }
+
+  public getIcon(name: string): string {
+    const parts = name.split(':');
+    if (parts.length < 2) {
+      return parts[0];
+    }
+    return parts[1];
+  }
+
   public doAction(action: CustomAction): void {
     if (action.confirm) {
       this.actionToConfirm = {

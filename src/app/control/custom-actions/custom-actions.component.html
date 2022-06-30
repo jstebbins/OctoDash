@@ -8,7 +8,7 @@
     [matRippleUnbounded]="false"
   >
     <fa-icon
-      [icon]="['fas', customAction.icon]"
+      [icon]="[getIconSet(customAction.icon), getIcon(customAction.icon)]"
       class="custom-actions__action-icon"
       [styles]="{ color: customAction.color }"
     ></fa-icon>
