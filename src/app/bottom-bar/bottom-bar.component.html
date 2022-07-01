@@ -6,7 +6,9 @@
       {{ enclosureTemperature.temperature }}{{ enclosureTemperature.unit }}
     </td>
     <td class="bottom-bar__current-status">
-      {{ statusText }}
+      <span matRipple [matRippleUnbounded]="false" (click)="dismissStatus()">
+        {{ statusText }}
+      </span>
     </td>
   </tr>
 </table>

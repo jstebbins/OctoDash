@@ -19,6 +19,7 @@ export class BottomBarComponent implements OnDestroy {
 
   public statusText: string;
   public enclosureTemperature: TemperatureReading;
+  public currentPrinterState: string;
 
   public constructor(
     private socketService: SocketService,
@@ -46,7 +47,8 @@ export class BottomBarComponent implements OnDestroy {
 
     this.subscriptions.add(
       this.socketService.getPrinterStatusSubscribable().subscribe((printerStatus: PrinterStatus): void => {
-        this.setStatusText(this.getStringStatus(printerStatus?.status));
+        this.currentPrinterState = this.getStringStatus(printerStatus?.status);
+        this.setStatusText(this.currentPrinterState);
       }),
     );
 
@@ -68,6 +70,14 @@ export class BottomBarComponent implements OnDestroy {
     if (statusText !== this.lastStatusText) {
       this.lastStatusText = this.statusText;
       this.statusText = statusText;
+    }
+  }
+
+  public dismissStatus(): void {
+    // Dismiss printer notification and restore printer state message
+    if (this.currentPrinterState) {
+      this.lastStatusText = null;
+      this.setStatusText(this.currentPrinterState);
     }
   }
 
