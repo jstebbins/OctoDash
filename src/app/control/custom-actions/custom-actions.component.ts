@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
 import { CustomAction } from '../../config/config.model';
@@ -7,6 +8,7 @@ import { PSUState } from '../../model';
 import { EnclosureService } from '../../services/enclosure/enclosure.service';
 import { PrinterService } from '../../services/printer/printer.service';
 import { SystemService } from '../../services/system/system.service';
+import { ValueEntryDialog, ValueEntryPreset } from '../../shared/value-entry-dialog/value-entry-dialog.component';
 
 @Component({
   selector: 'app-custom-actions',
@@ -25,6 +27,7 @@ export class CustomActionsComponent {
     private configService: ConfigService,
     private enclosureService: EnclosureService,
     private router: Router,
+    private dialog: MatDialog,
   ) {
     this.customActions = this.configService.getCustomActions();
   }
@@ -110,6 +113,16 @@ export class CustomActionsComponent {
         } else if (command.includes('[!OUTPUT_PWM]')) {
           const values = command.replace('[!OUTPUT_PWM]', '').split(',');
           this.setOutputPWM(values[0], values[1]);
+        } else if (command.includes('[!DIALOG]')) {
+          //const pattern = new RegExp(' +');
+          const dialog = command.replace('[!DIALOG]', '').trim().split(/ +/);
+          switch (dialog[0]) {
+            case 'temperature':
+              this.temperatureDialog(dialog[1]);
+              break;
+            default:
+              break;
+          }
         } else {
           this.printerService.executeGCode(command);
         }
@@ -170,5 +183,90 @@ export class CustomActionsComponent {
 
   private setOutputPWM(identifier: string, dutyCycle: string): void {
     this.enclosureService.setOutputPWM(Number(identifier), Number(dutyCycle));
+  }
+
+  private getPresets(target: string, valueOff: number, valueDefault: number): ValueEntryPreset[] {
+    const settings = this.printerService.fetchSettings();
+    const presets: Array<ValueEntryPreset> = [];
+    let preset: ValueEntryPreset = {
+      name: 'Off',
+      value: valueOff,
+    };
+    presets.push(preset);
+    preset = {
+      name: 'Default',
+      value: valueDefault,
+    };
+    presets.push(preset);
+    if (target != 'fan') {
+      settings?.temperature?.profiles?.forEach(profile => {
+        preset = {
+          name: profile.name,
+          value: profile[target],
+        };
+        presets.push(preset);
+      });
+    }
+    return presets;
+  }
+
+  private temperatureDialog(target: string): void {
+    let valueDefault: number;
+    let valueMax: number;
+    let presets: ValueEntryPreset[];
+    let icon: string;
+    let unit: string;
+
+    switch (target) {
+      case 'nozzle':
+        valueMax = 280;
+        valueDefault = this.configService.getDefaultHotendTemperature();
+        presets = this.getPresets('extruder', 0, valueDefault);
+        icon = 'nozzle.svg';
+        unit = '°C';
+        break;
+      case 'bed':
+        valueMax = 120;
+        valueDefault = this.configService.getDefaultHeatbedTemperature();
+        presets = this.getPresets('bed', 0, valueDefault);
+        icon = 'heat-bed.svg';
+        unit = '°C';
+        break;
+      case 'fan':
+        valueMax = 100;
+        valueDefault = this.configService.getDefaultFanSpeed();
+        presets = this.getPresets('fan', 0, valueDefault);
+        icon = 'fan.svg';
+        unit = '%';
+        break;
+      default:
+        return;
+    }
+    const dialogRef = this.dialog.open(ValueEntryDialog, {
+      data: {
+        icon: icon,
+        unit: unit,
+        selection: 'Default',
+        acknowledge: 'set',
+        valueMax: valueMax,
+        presets: presets,
+      },
+    });
+    dialogRef.afterClosed().subscribe(data => {
+      if (data != undefined) {
+        const [, value] = data;
+        switch (target) {
+          case 'nozzle':
+            this.printerService.setTemperatureHotend(value);
+            break;
+          case 'bed':
+            this.printerService.setTemperatureBed(value);
+            break;
+          case 'fan':
+            this.printerService.setFanSpeed(value);
+            break;
+        }
+      }
+    });
   }
 }
