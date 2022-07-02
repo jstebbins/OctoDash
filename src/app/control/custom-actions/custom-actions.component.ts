@@ -1,13 +1,17 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import _ from 'lodash-es';
 
 import { CustomAction } from '../../config/config.model';
 import { ConfigService } from '../../config/config.service';
-import { PSUState } from '../../model';
+import { ElectronService } from '../../electron.service';
+import { NotificationType, PSUState } from '../../model';
+import { NotificationService } from '../../notification/notification.service';
 import { EnclosureService } from '../../services/enclosure/enclosure.service';
 import { PrinterService } from '../../services/printer/printer.service';
 import { SystemService } from '../../services/system/system.service';
+import { CustomActionDialog } from '../../shared/custom-action-dialog/custom-action-dialog.component';
 import { ValueEntryDialog, ValueEntryPreset } from '../../shared/value-entry-dialog/value-entry-dialog.component';
 
 @Component({
@@ -25,6 +29,8 @@ export class CustomActionsComponent {
     private printerService: PrinterService,
     private systemService: SystemService,
     private configService: ConfigService,
+    private notificationService: NotificationService,
+    private electronService: ElectronService,
     private enclosureService: EnclosureService,
     private router: Router,
     private dialog: MatDialog,
@@ -64,6 +70,28 @@ export class CustomActionsComponent {
       }
       this.hideConfirm();
     }
+  }
+
+  public editAction(number: number): void {
+    const dialogRef = this.dialog.open(CustomActionDialog, {
+      data: _.cloneDeep(this.customActions[number]),
+    });
+    dialogRef.afterClosed().subscribe(data => {
+      if (data != undefined) {
+        this.customActions[number] = data;
+        this.electronService.on('configSaveFail', this.onConfigSaveFail.bind(this));
+        this.configService.setCustomAction(number, data);
+      }
+    });
+  }
+
+  private onConfigSaveFail(_, errors: string[]) {
+    this.notificationService.setNotification({
+      heading: $localize`:@@error-invalid-config:Can't save invalid config`,
+      text: String(errors),
+      type: NotificationType.WARN,
+      time: new Date(),
+    });
   }
 
   public hideConfirm(): void {

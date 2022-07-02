@@ -63,6 +63,7 @@ import { SocketService } from './services/socket/socket.service';
 import { SystemOctoprintService } from './services/system/system.octoprint.service';
 import { SystemService } from './services/system/system.service';
 import { SettingsComponent } from './settings/settings.component';
+import { CustomActionDialog } from './shared/custom-action-dialog/custom-action-dialog.component';
 import { od } from './shared/fa-octodash';
 import { ToggleSwitchComponent } from './shared/toggle-switch/toggle-switch.component';
 import { ValueEntryDialog } from './shared/value-entry-dialog/value-entry-dialog.component';
@@ -111,6 +112,7 @@ export function playerFactory(): LottiePlayer {
     ToggleSwitchComponent,
     NotificationCenterComponent,
     ValueEntryDialog,
+    CustomActionDialog,
   ],
   imports: [
     AppRoutingModule,

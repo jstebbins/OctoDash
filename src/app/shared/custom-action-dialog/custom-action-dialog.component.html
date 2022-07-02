@@ -1,0 +1,93 @@
+<div mat-dialog-content>
+  <div class="custom-action-dialog" (click)="close()">
+    <table class="top-bar">
+      <tr>
+        <td class="top-bar__back">
+          <img src="assets/back.svg" class="top-bar__back-icon"
+            matRipple [matRippleUnbounded]="false" />
+        </td>
+        <td class="top-bar__center">
+          <fa-icon
+            [icon]="[getIconSet(customAction.icon), getIcon(customAction.icon)]"
+            class="custom-action-dialog__icon"
+            [styles]="{ color: customAction.color }">
+          </fa-icon>
+        </td>
+        <td class="top-bar__next"></td>
+      </tr>
+    </table>
+
+    <div class="custom-action-dialog__controller" (click)="stopPropagation($event)">
+      <div class="custom-action-dialog__controller-settings">
+        <label for="custom-action-dialog-command" class="custom-action-dialog__input-label" i18n="@@octodash-gcode">GCode / Action</label>
+        <input
+          type="string"
+          id="custom-action-dialog-command"
+          class="custom-action-dialog__input"
+          name="custom-action-dialog-command"
+          style="width: 44.94vw"
+          [(ngModel)]="customAction.command"
+          required />
+        <table>
+          <tr>
+            <td>
+              <label for="custom-action-dialog-icon" class="custom-action-dialog__input-label" i18n="@@action-icon">Icon</label>
+              <input
+                type="text"
+                id="custom-action-dialog-icon"
+                class="custom-action-dialog__input"
+                name="custom-action-dialog-icon"
+                style="width: 14vw"
+                [(ngModel)]="customAction.icon"
+                required />
+            </td>
+            <td style="padding-left: 3vw">
+              <label for="custom-action-dialog-color" class="custom-action-dialog__input-label" i18n="@@action-color">Color</label>
+              <input
+                type="text"
+                id="custom-action-dialog-color"
+                class="custom-action-dialog__input"
+                name="custom-action-dialog-color"
+                style="width: 14vw"
+                [(ngModel)]="customAction.color"
+                required />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div
+                class="custom-action-dialog__checkbox-container"
+                (click)="customAction.confirm = !customAction.confirm">
+                <span class="custom-action-dialog__checkbox">
+                  <span
+                    class="custom-action-dialog__checkbox-checked"
+                    *ngIf="customAction.confirm"></span>
+                </span>
+                <span class="custom-action-dialog__checkbox-descriptor" i18n="@@action-confirm">Confirm</span>
+              </div>
+            </td>
+
+            <td style="padding-left: 3vw" colspan="2">
+              <div
+                class="custom-action-dialog__checkbox-container"
+                (click)="customAction.exit = !customAction.exit">
+                <span class="custom-action-dialog__checkbox">
+                  <span
+                    class="custom-action-dialog__checkbox-checked"
+                    *ngIf="customAction.exit"></span>
+                </span>
+                <span class="custom-action-dialog__checkbox-descriptor" i18n="@@action-home">Return to Home</span>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="custom-action-dialog__controller-save">
+        <span (click)="save()" matRipple [matRippleUnbounded]="false"
+          class="custom-action-dialog__controller-save-span">
+          Save
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

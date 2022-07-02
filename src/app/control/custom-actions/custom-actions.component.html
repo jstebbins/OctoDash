@@ -1,9 +1,10 @@
 <div class="custom-actions">
   <div
     class="custom-actions__action"
-    *ngFor="let customAction of customActions"
+    *ngFor="let customAction of customActions; let number = index"
     [style.border-color]="customAction.color"
     (click)="doAction(customAction)"
+    (contextmenu)="editAction(number)"
     matRipple
     [matRippleUnbounded]="false"
   >

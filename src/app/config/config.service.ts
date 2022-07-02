@@ -335,6 +335,11 @@ export class ConfigService {
     this.saveConfig(this.config);
   }
 
+  public setCustomAction(index: number, customAction: CustomAction): void {
+    this.config.octodash.customActions[index] = customAction;
+    this.saveConfig(this.config);
+  }
+
   public showNotificationCenterIcon(): boolean {
     return this.config.octodash.showNotificationCenterIcon;
   }
